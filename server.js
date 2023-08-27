@@ -1,18 +1,25 @@
 const express = require("express");
+const cors = require("cors");
+
 const app = express();
-// const cors = require("cors");
 const port = 3001;
 app.set("port", port);
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 app.listen(port, () => {
   console.log(`server has started on port ${port} 💸 🔦 💫`);
 });
 
-//routes
+// routes
+
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+  })
+);
+
+app.get("/", (req, res) => {
+  res.send({ response: "Hello World!" });
+});
 
 app.get("/api/v1/bookshelf", (req, res) => {
   res.send("GET bookshelf");
