@@ -20,7 +20,7 @@ app.use(
 
 app.get("/", async (req, res) => {
   try {
-    const result = await db.User.findAll({});
+    const result = await db.Book.findAll({ include: db.Author });
     res.send({ result });
   } catch (error) {
     console.error(error);
