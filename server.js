@@ -17,7 +17,3 @@ app.listen(port, () => {
 app.get("/api/v1/bookshelf", (req, res) => {
   res.send("GET bookshelf");
 });
-
-// app.post("/", (req, res) => {
-//   res.send("POST request to the homepage");
-// });
