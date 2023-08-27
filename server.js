@@ -20,8 +20,8 @@ app.use(
 
 app.get("/", async (req, res) => {
   try {
-    await db.sequelize.authenticate();
-    res.send({ result: "Connection has been established successfully." });
+    const result = await db.User.findAll({});
+    res.send({ result });
   } catch (error) {
     console.error(error);
     res.send({ result: "Unable to connect to the database:" });
