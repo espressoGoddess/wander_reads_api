@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const db = require("./models/index");
 
 const app = express();
 const port = 3001;
@@ -17,8 +18,14 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.send({ response: "Hello World!" });
+app.get("/", async (req, res) => {
+  try {
+    await db.sequelize.authenticate();
+    res.send({ result: "Connection has been established successfully." });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: "Unable to connect to the database:" });
+  }
 });
 
 app.get("/api/v1/bookshelf", (req, res) => {
