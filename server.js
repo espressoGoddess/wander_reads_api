@@ -19,13 +19,13 @@ app.use(
 );
 
 app.get("/", async (req, res) => {
-  try {
-    const result = await db.Book.findAll({ include: db.Author });
-    res.send({ result });
-  } catch (error) {
-    console.error(error);
-    res.send({ result: "Unable to connect to the database:" });
-  }
+  const result = await db.Bookshelf.findAll({
+    where: {
+      userId: 2,
+    },
+    include: db.Book,
+  });
+  res.send({ result });
 });
 
 app.get("/api/v1/bookshelf", (req, res) => {
