@@ -13,6 +13,8 @@ app.use(
   }),
 );
 
+app.use(express.json());
+
 app.use(routes);
 
 async function boot() {
