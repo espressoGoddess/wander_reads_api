@@ -1,7 +1,15 @@
-import { Table, Column, Model, ForeignKey, BelongsTo, HasMany, DataType } from 'sequelize-typescript';
-import { Author } from './author';
-import { Bookshelf } from './bookshelf';
-import { Review } from './review';
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  DataType,
+} from "sequelize-typescript";
+import { Author } from "./author";
+import { Bookshelf } from "./bookshelf";
+import { Review } from "./review";
 
 @Table
 export class Book extends Model<Book> {
@@ -12,7 +20,13 @@ export class Book extends Model<Book> {
   title!: string;
 
   @Column({
-    type: DataType.TEXT,  
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  isbn!: string;
+
+  @Column({
+    type: DataType.TEXT,
   })
   description!: string;
 
