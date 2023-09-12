@@ -14,6 +14,6 @@ This service is built with [node](https://nodejs.org/) and [express.js](https://
 1. Populate your `.env` with the connection string for your local Postgres database
 	1. If using docker-compose: 
 	`DATABASE_URL="postgres://postgres:secret@localhost:5432/postgres"`
-1. Start the dev server: `npm start`
+1. Start the dev server: `npm run dev`
 1. (Optional) Run the seed scripts:
 `npm run db:seed`
