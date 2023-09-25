@@ -1,9 +1,27 @@
-import { Table, Column, Model, ForeignKey, BelongsTo, DataType } from 'sequelize-typescript';
-import { Book } from './book';
-import { User } from './user';
+import { Optional } from "sequelize";
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+  DataType,
+} from "sequelize-typescript";
+import { Book } from "./book";
+import { User } from "./user";
+
+interface ReviewAttributes {
+  id: number;
+  userId: number;
+  bookId: number;
+  rating?: number;
+  review?: string;
+}
+
+interface ReviewCreationAttributes extends Optional<ReviewAttributes, "id"> {}
 
 @Table
-export class Review extends Model<Review> {
+export class Review extends Model<ReviewAttributes, ReviewCreationAttributes> {
   @Column(DataType.INTEGER)
   rating!: number;
 
