@@ -14,18 +14,24 @@ interface ReviewAttributes {
   id: number;
   userId: number;
   bookId: number;
-  rating?: number;
-  review?: string;
+  rating: number;
+  review: string;
 }
 
 interface ReviewCreationAttributes extends Optional<ReviewAttributes, "id"> {}
 
 @Table
 export class Review extends Model<ReviewAttributes, ReviewCreationAttributes> {
-  @Column(DataType.INTEGER)
+  @Column({
+    allowNull: false,
+    type: DataType.INTEGER,
+  })
   rating!: number;
 
-  @Column(DataType.TEXT)
+  @Column({
+    allowNull: false,
+    type: DataType.TEXT,
+  })
   review!: string;
 
   @ForeignKey(() => User)
