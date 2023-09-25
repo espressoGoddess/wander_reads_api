@@ -6,17 +6,33 @@ import {
   loadDataByIsbn,
   loadDataByTitle,
 } from "./open-library";
+import { Author } from "./models/author";
 
 const router = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/api/v1/bookshelf", async (req: Request, res: Response) => {
+  const shelfType = req.query.shelfType;
+  const where = { userId: 2 };
+  if (shelfType) {
+    (where as any).shelfType = shelfType;
+  }
   const result = await Bookshelf.findAll({
-    where: {
-      userId: 2,
-    },
-    include: Book,
+    where,
+    include: [
+      {
+        model: Book,
+        include: [Author],
+      },
+    ],
   });
-  res.send({ result });
+  const books = result.map((item) => ({
+    author: item.book.author.name,
+    title: item.book.title,
+    cover: item.book.coverUrl,
+    description: item.book.description,
+    id: item.id,
+  }));
+  res.send({ books });
 });
 
 router.post("/api/v1/search", async (req: Request, res: Response) => {
