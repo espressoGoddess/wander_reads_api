@@ -34,7 +34,7 @@ module.exports = {
           review: "I cried",
         },
       ],
-      {}
+      {},
     );
 
     await queryInterface.bulkInsert(
@@ -89,7 +89,13 @@ module.exports = {
           shelfType: "already_read",
         },
       ],
-      {}
+      {},
+    );
+    await queryInterface.sequelize.query(
+      'ALTER SEQUENCE "Reviews_id_seq" RESTART WITH 4',
+    );
+    await queryInterface.sequelize.query(
+      'ALTER SEQUENCE "Bookshelves_id_seq" RESTART WITH 7',
     );
   },
 

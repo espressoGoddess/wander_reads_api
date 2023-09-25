@@ -21,7 +21,10 @@ module.exports = {
           updatedAt: new Date(),
         },
       ],
-      {}
+      {},
+    );
+    await queryInterface.sequelize.query(
+      'ALTER SEQUENCE "Users_id_seq" RESTART WITH 3',
     );
   },
 

@@ -49,7 +49,7 @@ module.exports = {
           updatedAt: new Date(),
         },
       ],
-      {}
+      {},
     );
 
     await queryInterface.bulkInsert(
@@ -126,7 +126,13 @@ module.exports = {
           coverUrl: "https://covers.openlibrary.org/b/id/587796-L.jpg",
         },
       ],
-      {}
+      {},
+    );
+    await queryInterface.sequelize.query(
+      'ALTER SEQUENCE "Authors_id_seq" RESTART WITH 8',
+    );
+    await queryInterface.sequelize.query(
+      'ALTER SEQUENCE "Books_id_seq" RESTART WITH 8',
     );
   },
 
