@@ -7,6 +7,7 @@ import {
   loadDataByTitle,
 } from "./open-library";
 import { Author } from "./models/author";
+import { Review } from "./models/review";
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.get("/api/v1/bookshelf", async (req: Request, res: Response) => {
     include: [
       {
         model: Book,
-        include: [Author],
+        include: [Author, Review],
       },
     ],
   });
@@ -31,6 +32,8 @@ router.get("/api/v1/bookshelf", async (req: Request, res: Response) => {
     cover: item.book.coverUrl,
     description: item.book.description,
     id: item.id,
+    review: item.book.reviews[0]?.review,
+    rating: item.book.reviews[0]?.rating,
   }));
   res.send({ books });
 });
