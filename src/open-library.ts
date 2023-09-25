@@ -50,7 +50,20 @@ async function openLibraryGet<T = any>(path: string) {
   return response.json() as any as T;
 }
 
-function formatDataFromIsbn(isbnData: any, works: any, author: any) {
+//Keep in sync with FE /types
+interface SearchResult {
+  id: string;
+  author: string;
+  title: string;
+  cover?: string;
+  description?: string;
+}
+
+function formatDataFromIsbn(
+  isbnData: any,
+  works: any,
+  author: any,
+): SearchResult {
   return {
     author: author.name,
     title: isbnData.title,
@@ -62,7 +75,7 @@ function formatDataFromIsbn(isbnData: any, works: any, author: any) {
   };
 }
 
-function formatDataFromAuthor(works: any[], author: any) {
+function formatDataFromAuthor(works: any[], author: any): SearchResult[] {
   return works.map((item) => ({
     author: author.name,
     title: item.title,
