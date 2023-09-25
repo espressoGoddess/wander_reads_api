@@ -1,10 +1,29 @@
-import { Table, Column, Model, ForeignKey, BelongsTo, HasMany, DataType } from 'sequelize-typescript';
-import { Author } from './author';
-import { Bookshelf } from './bookshelf';
-import { Review } from './review';
+import { Optional } from "sequelize";
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  DataType,
+} from "sequelize-typescript";
+import { Author } from "./author";
+import { Bookshelf } from "./bookshelf";
+import { Review } from "./review";
+
+interface BookAttributes {
+  id: number;
+  title: string;
+  authorId: string;
+  description?: string;
+  coverUrl?: string;
+}
+
+interface BookCreationAttributes extends Optional<BookAttributes, "id"> {}
 
 @Table
-export class Book extends Model<Book> {
+export class Book extends Model<BookAttributes, BookCreationAttributes> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -12,7 +31,7 @@ export class Book extends Model<Book> {
   title!: string;
 
   @Column({
-    type: DataType.TEXT,  
+    type: DataType.TEXT,
   })
   description!: string;
 
