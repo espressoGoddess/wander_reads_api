@@ -10,11 +10,13 @@ import {
 import { Book } from "./book";
 import { User } from "./user";
 
+export type ShelfType = "want_to_read" | "already_read";
+
 interface BookshelfAttributes {
   id: number;
   userId: number;
   bookId: number;
-  shelfType?: "want_to_read" | "already_read";
+  shelfType?: ShelfType;
 }
 
 interface BookshelfCreationAttributes
@@ -28,7 +30,7 @@ export class Bookshelf extends Model<
   @Column({
     type: DataType.ENUM("want_to_read", "already_read"),
   })
-  shelfType!: "want_to_read" | "already_read";
+  shelfType!: ShelfType;
 
   @ForeignKey(() => User)
   @Column({

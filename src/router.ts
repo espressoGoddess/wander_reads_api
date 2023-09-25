@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { Bookshelf } from "./models/bookshelf";
+import { Bookshelf, ShelfType } from "./models/bookshelf";
 import { Book } from "./models/book";
 import {
   loadDataByAuthor,
@@ -35,10 +35,19 @@ router.get("/api/v1/bookshelf", async (req: Request, res: Response) => {
   res.send({ books });
 });
 
+interface AddBookToShelfPayload {
+  author: string;
+  title: string;
+  shelfType: ShelfType;
+  cover?: string;
+  description?: string;
+}
+
 router.post("/api/v1/bookshelf", async (req, res) => {
   try {
     const userId = 2;
-    const { author, title, cover, description, shelfType } = req.body;
+    const { author, title, cover, description, shelfType } =
+      req.body as AddBookToShelfPayload;
 
     let authorInstance = await Author.findOne({ where: { name: author } });
     if (!authorInstance) {
