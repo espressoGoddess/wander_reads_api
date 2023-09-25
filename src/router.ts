@@ -44,14 +44,15 @@ interface AddBookToShelfPayload {
   shelfType: ShelfType;
   cover?: string;
   description?: string;
+  rating?: number;
+  review?: string;
 }
 
 router.post("/api/v1/bookshelf", async (req, res) => {
   try {
     const userId = 2;
-    const { author, title, cover, description, shelfType } =
+    const { author, title, cover, description, shelfType, rating, review } =
       req.body as AddBookToShelfPayload;
-
     let authorInstance = await Author.findOne({ where: { name: author } });
     if (!authorInstance) {
       authorInstance = await Author.create({
@@ -80,7 +81,28 @@ router.post("/api/v1/bookshelf", async (req, res) => {
       bookId: bookInstance.id,
     });
 
-    res.sendStatus(204);
+    if (shelfType === "already_read") {
+      const missingParams = [];
+      if (!review) {
+        missingParams.push("review");
+      }
+      if (!rating) {
+        missingParams.push("rating");
+      }
+      if (missingParams.length) {
+        res.status(400).json({
+          message: `Error. You must provide ${missingParams} for already read books`,
+        });
+        return;
+      }
+      Review.create({
+        userId: userId,
+        bookId: bookInstance.id,
+        rating: rating!,
+        review: review!,
+      });
+    }
+    res.send({ message: "okay" });
   } catch (error) {
     console.error("Error adding book to shelf:", error);
     res.status(500).json({ message: "Internal server error" });
