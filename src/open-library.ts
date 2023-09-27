@@ -37,7 +37,7 @@ export async function loadDataByTitle(title: string) {
     books.push({
       title: bookData.title,
       cover: `https://covers.openlibrary.org/b/id/${searchResults.docs[i].cover_i}-L.jpg`,
-      author: searchResults.docs[i].author_name,
+      author: getAuthor(searchResults.docs[i].author_name),
       description: bookData.description?.value,
       id: searchResults.docs[i].key,
     });
@@ -59,13 +59,17 @@ interface SearchResult {
   description?: string;
 }
 
+function getAuthor(author: string | string[]) {
+  return Array.isArray(author) ? author[0] : author;
+}
+
 function formatDataFromIsbn(
   isbnData: any,
   works: any,
   author: any,
 ): SearchResult {
   return {
-    author: author.name,
+    author: getAuthor(author.name),
     title: isbnData.title,
     cover: isbnData.covers
       ? `https://covers.openlibrary.org/b/id/${isbnData.covers[0]}-L.jpg`
@@ -77,7 +81,7 @@ function formatDataFromIsbn(
 
 function formatDataFromAuthor(works: any[], author: any): SearchResult[] {
   return works.map((item) => ({
-    author: author.name,
+    author: getAuthor(author.name),
     title: item.title,
     cover: item.covers
       ? `https://covers.openlibrary.org/b/id/${item.covers[0]}-L.jpg`
