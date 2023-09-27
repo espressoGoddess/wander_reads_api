@@ -95,7 +95,7 @@ router.post("/api/v1/bookshelf", async (req, res) => {
         });
         return;
       }
-      Review.create({
+      await Review.create({
         userId: userId,
         bookId: bookInstance.id,
         rating: rating!,
